@@ -12,6 +12,10 @@ MANIFEST_PATH = ROOT / "data" / "policies.json"
 OUTPUT_PATH = ROOT / "data" / "policies.js"
 APP_LOGOS_DIR = ROOT / "assets" / "images" / "apps"
 
+ACCOUNT_DELETIONS_DIR = ROOT / "account-deletions"
+DELETIONS_MANIFEST_PATH = ROOT / "data" / "account-deletions.json"
+DELETIONS_OUTPUT_PATH = ROOT / "data" / "account-deletions.js"
+
 
 def escape_template_literal(value: str) -> str:
     return value.replace("`", r"\`").replace("${", r"\${")
@@ -50,6 +54,7 @@ def infer_name(content: str, fallback_stem: str) -> str:
     if heading_match:
         heading = heading_match.group(1).strip()
         heading = re.sub(r"^Privacy Policy for\s+", "", heading, flags=re.IGNORECASE)
+        heading = re.sub(r"\s*[-—]\s*Account\s*&\s*Data\s*Deletion\s*Request.*$", "", heading, flags=re.IGNORECASE)
         heading = heading.replace("**", "").strip()
         if heading:
             return heading
@@ -57,11 +62,11 @@ def infer_name(content: str, fallback_stem: str) -> str:
 
 
 def infer_effective_date(content: str) -> str:
-    match = re.search(r"^Effective date:\s*(.+)$", content, flags=re.IGNORECASE | re.MULTILINE)
+    match = re.search(r"^(?:Effective date|Last updated):\s*(.+)$", content, flags=re.IGNORECASE | re.MULTILINE)
     if not match:
         return ""
 
-    raw_value = match.group(1).strip()
+    raw_value = match.group(1).strip().strip("*")
     for fmt in ("%Y-%m-%d", "%B %d, %Y", "%b %d, %Y"):
         try:
             return datetime.strptime(raw_value, fmt).strftime("%Y-%m-%d")
@@ -87,14 +92,14 @@ def infer_excerpt(content: str) -> str:
     return "Privacy policy information for this application."
 
 
-def load_overrides() -> dict[str, dict]:
-    if not MANIFEST_PATH.exists():
+def load_overrides(path: Path, root_key: str) -> dict[str, dict]:
+    if not path.exists():
         return {}
 
-    manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
+    manifest = json.loads(path.read_text(encoding="utf-8"))
     return {
         item["id"]: item
-        for item in manifest.get("policies", [])
+        for item in manifest.get(root_key, [])
         if item.get("id")
     }
 
@@ -144,8 +149,42 @@ def build_policy(file_path: Path, overrides: dict[str, dict]) -> dict:
     return merged
 
 
-def main() -> None:
-    overrides = load_overrides()
+def build_deletion(file_path: Path, overrides: dict[str, dict]) -> dict:
+    raw = file_path.read_text(encoding="utf-8")
+    front_matter, content = parse_front_matter(raw)
+    file_id = slugify(str(front_matter.get("id", "")) or file_path.stem)
+    override = overrides.get(file_id, {})
+
+    base = {
+        "id": file_id,
+        "name": front_matter.get("name") or front_matter.get("app") or infer_name(content, file_id),
+        "shortName": front_matter.get("shortName", ""),
+        "status": front_matter.get("status", "Available"),
+        "effectiveDate": front_matter.get("effectiveDate") or infer_effective_date(content),
+        "platform": front_matter.get("platform", "Android"),
+        "category": front_matter.get("category", "Application"),
+        "logo": front_matter.get("logo", ""),
+        "excerpt": front_matter.get("excerpt") or infer_excerpt(content),
+        "requestEmail": front_matter.get("requestEmail", "13dimensions.studio@gmail.com"),
+        "emailSubject": front_matter.get("emailSubject", f"{file_id.title()} account and data deletion"),
+        "order": front_matter.get("order", 9999),
+        "content": escape_template_literal(content),
+    }
+
+    merged = {
+        **base,
+        **{key: value for key, value in override.items() if key != "source"},
+    }
+
+    if not merged.get("shortName"):
+        merged["shortName"] = merged["name"]
+
+    merged["logo"] = resolve_logo(file_id, merged)
+    return merged
+
+
+def build_policies() -> None:
+    overrides = load_overrides(MANIFEST_PATH, "policies")
     policy_files = sorted(
         path for path in POLICIES_DIR.glob("*.md")
         if not path.name.startswith("_")
@@ -166,6 +205,35 @@ def main() -> None:
     lines.extend(["    ]", "};", ""])
     OUTPUT_PATH.write_text("\n".join(lines), encoding="utf-8")
     print(f"Generated {OUTPUT_PATH}")
+
+
+def build_account_deletions() -> None:
+    overrides = load_overrides(DELETIONS_MANIFEST_PATH, "accountDeletions")
+    deletion_files = sorted(
+        path for path in ACCOUNT_DELETIONS_DIR.glob("*.md")
+        if not path.name.startswith("_")
+    )
+
+    deletions = [build_deletion(path, overrides) for path in deletion_files]
+    deletions.sort(key=lambda item: ((item.get("order") or 9999), item.get("name", "")))
+
+    lines = ["window.ACCOUNT_DELETION_DATA = {", "    accountDeletions: ["]
+
+    for index, item in enumerate(deletions):
+        lines.append("        {")
+        for key in ["id", "name", "shortName", "status", "effectiveDate", "platform", "category", "logo", "excerpt", "requestEmail", "emailSubject", "order"]:
+            lines.append(f"            {key}: {json.dumps(item[key], ensure_ascii=False)},")
+        lines.append(f"            content: `{item['content']}`")
+        lines.append("        }" + ("," if index < len(deletions) - 1 else ""))
+
+    lines.extend(["    ]", "};", ""])
+    DELETIONS_OUTPUT_PATH.write_text("\n".join(lines), encoding="utf-8")
+    print(f"Generated {DELETIONS_OUTPUT_PATH}")
+
+
+def main() -> None:
+    build_policies()
+    build_account_deletions()
 
 
 if __name__ == "__main__":

@@ -1,0 +1,20 @@
+{
+  "generatedAt": "2026-10-22",
+  "accountDeletions": [
+    {
+      "id": "lunaris",
+      "name": "Lunaris",
+      "shortName": "Lunaris",
+      "status": "Available",
+      "effectiveDate": "2026-10-22",
+      "platform": "Android",
+      "category": "Wallpaper & Media",
+      "logo": "assets/images/apps/lunaris.png",
+      "source": "account-deletions/lunaris.md",
+      "excerpt": "Request deletion of your Lunaris Firebase Authentication account, synchronized favorites, and download quota data.",
+      "requestEmail": "13dimensions.studio@gmail.com",
+      "emailSubject": "Lunaris account and data deletion",
+      "order": 1
+    }
+  ]
+}
