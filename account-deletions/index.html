@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0E0E10">
+    <title>Account Deletion Requests | 13 Dimensions Studio</title>
+    <meta
+        name="description"
+        content="Submit account deletion requests for applications published by 13 Dimensions Studio."
+    >
+    <link rel="icon" type="image/jpeg" href="../assets/images/logo_header.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Sora:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap"
+        rel="stylesheet"
+    >
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <style>
+        .ad-header {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 36px;
+        }
+
+        .ad-header-logo {
+            width: 72px;
+            height: 72px;
+            border-radius: 22px;
+            border: 1px solid rgba(255,255,255,0.1);
+            object-fit: cover;
+            background: rgba(0,0,0,0.3);
+            flex-shrink: 0;
+        }
+
+        .ad-header-text h1 {
+            margin: 0 0 6px;
+            font-family: var(--font-display);
+            font-size: clamp(1.6rem, 4vw, 2.8rem);
+            letter-spacing: -0.03em;
+        }
+
+        .ad-header-text p {
+            margin: 0;
+            color: var(--secondary-text);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .deletion-grid {
+            display: grid;
+            gap: 22px;
+        }
+
+        .deletion-card {
+            padding: 26px 28px;
+            border-radius: var(--radius-lg);
+        }
+
+        .deletion-card-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 18px;
+        }
+
+        .app-logo-sm {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.08);
+            object-fit: cover;
+            background: rgba(0,0,0,0.3);
+            flex-shrink: 0;
+        }
+
+        .app-logo-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.04);
+            flex-shrink: 0;
+            font-family: var(--font-tech);
+            font-size: 1.3rem;
+            color: var(--secondary-text);
+        }
+
+        .deletion-card-header h2 {
+            margin: 0 0 4px;
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            letter-spacing: -0.02em;
+        }
+
+        .deletion-card-header .cat-label {
+            margin: 0;
+            color: var(--secondary-text);
+            font-family: var(--font-tech);
+            font-size: 0.75rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+
+        .deletion-card hr {
+            border: none;
+            border-top: 1px solid rgba(255,255,255,0.07);
+            margin: 18px 0;
+        }
+
+        .instruction-block {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px;
+            padding: 18px 20px;
+            margin-bottom: 16px;
+        }
+
+        .instruction-block .step-label {
+            font-family: var(--font-tech);
+            font-size: 0.73rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--secondary-text);
+            margin-bottom: 8px;
+        }
+
+        .instruction-block .email-target {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: rgb(163, 197, 255);
+            word-break: break-all;
+        }
+
+        .subject-box {
+            margin-top: 10px;
+            padding: 11px 14px;
+            border-radius: 11px;
+            background: rgba(var(--tech-rgb), 0.08);
+            border: 1px solid rgba(var(--tech-rgb), 0.2);
+            font-family: var(--font-tech);
+            font-size: 0.92rem;
+            color: rgb(163, 197, 255);
+            word-break: break-word;
+        }
+
+        .deletion-what {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-top: 16px;
+        }
+
+        .deletion-what-col h4 {
+            margin: 0 0 10px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .deletion-what-col ul {
+            margin: 0;
+            padding-left: 18px;
+        }
+
+        .deletion-what-col li {
+            font-size: 0.9rem;
+            color: var(--secondary-text);
+            line-height: 1.7;
+        }
+
+        .col-deleted h4 { color: #6EE7B7; }
+        .col-kept h4 { color: #FCA5A5; }
+
+        .in-app-note {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 14px 16px;
+            border-radius: 14px;
+            background: rgba(255,255,255,0.025);
+            border: 1px solid rgba(255,255,255,0.07);
+            margin-top: 16px;
+        }
+
+        .in-app-note .note-icon {
+            font-size: 1.2rem;
+            line-height: 1.5;
+            flex-shrink: 0;
+        }
+
+        .in-app-note p {
+            margin: 0;
+            font-size: 0.92rem;
+            color: var(--secondary-text);
+            line-height: 1.65;
+        }
+
+        .in-app-note code {
+            padding: 0.1rem 0.38rem;
+            border-radius: 7px;
+            background: rgba(var(--tech-rgb), 0.12);
+            color: rgb(163, 197, 255);
+            font-family: var(--font-tech);
+            font-size: 0.88em;
+        }
+
+        .policy-link-row {
+            margin-top: 20px;
+        }
+
+        .policy-link-row a {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 0.92rem;
+            color: rgb(163, 197, 255);
+            text-decoration: none;
+        }
+
+        .policy-link-row a:hover {
+            text-decoration: underline;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 28px;
+            padding: 10px 16px;
+            border-radius: 14px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.07);
+            color: var(--secondary-text);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: background 160ms ease, transform 160ms ease;
+        }
+
+        .back-link:hover {
+            background: rgba(255,255,255,0.07);
+            transform: translateY(-1px);
+        }
+
+        .page-kicker {
+            font-family: var(--font-tech);
+            font-size: 0.74rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--secondary-text);
+            margin: 0 0 10px;
+        }
+
+        @media (max-width: 620px) {
+            .deletion-what {
+                grid-template-columns: 1fr;
+            }
+
+            .ad-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-background" aria-hidden="true">
+        <div class="grid-wash"></div>
+        <div class="orb orb-one" data-parallax-layer="0.22"></div>
+        <div class="orb orb-two" data-parallax-layer="0.12"></div>
+        <div class="orb orb-three" data-parallax-layer="0.08"></div>
+    </div>
+
+    <main class="page-shell">
+        <a class="back-link" href="../index.html">
+            &#8592; Back to Privacy Policies
+        </a>
+
+        <div class="ad-header">
+            <img src="../assets/images/logo.jpg" alt="13 Dimensions Studio" class="ad-header-logo">
+            <div class="ad-header-text">
+                <p class="page-kicker">13 Dimensions Studio</p>
+                <h1>Account Deletion Requests</h1>
+                <p>Follow the steps below to request deletion of your account and associated data for any of our apps.</p>
+            </div>
+        </div>
+
+        <div class="deletion-grid" id="deletionGrid">
+            <!-- Lunaris -->
+            <div class="deletion-card glass-panel" id="lunaris">
+                <div class="deletion-card-header">
+                    <img src="../assets/images/apps/lunaris.png" alt="Lunaris logo" class="app-logo-sm">
+                    <div>
+                        <h2>Lunaris</h2>
+                        <p class="cat-label">Wallpaper &amp; Media &nbsp;·&nbsp; Firebase Account</p>
+                    </div>
+                </div>
+
+                <div class="instruction-block">
+                    <div class="step-label">Step 1 &mdash; Send deletion email</div>
+                    <div class="email-target">13dimensions.studio@gmail.com</div>
+                    <div class="subject-box">Subject: Lunaris account and data deletion</div>
+                </div>
+
+                <p style="color:var(--secondary-text);font-size:0.93rem;line-height:1.7;margin:0 0 4px;">
+                    Email from the address registered to your Lunaris account. In the message, state that you want your account and associated data deleted.
+                    <strong style="color:var(--text);">Do not include your password.</strong>
+                </p>
+
+                <hr>
+
+                <div class="deletion-what">
+                    <div class="deletion-what-col col-deleted">
+                        <h4>&#10003; Will be deleted</h4>
+                        <ul>
+                            <li>Firebase Authentication account</li>
+                            <li>Profile data (name, email, timestamps)</li>
+                            <li>Synchronized favorite wallpaper IDs</li>
+                            <li>Base download-quota records</li>
+                        </ul>
+                    </div>
+                    <div class="deletion-what-col col-kept">
+                        <h4>&#9888; Not automatically deleted</h4>
+                        <ul>
+                            <li>Wallpaper exports on your device</li>
+                            <li>Google Play subscription (cancel separately)</li>
+                            <li>Records kept by service providers for legal/security reasons</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="in-app-note">
+                    <span class="note-icon">&#128241;</span>
+                    <p>You can also start a request from inside Lunaris by opening <code>Profile &rarr; Contact Us</code>.</p>
+                </div>
+
+                <div class="policy-link-row">
+                    <a href="../index.html?app=lunaris#lunaris">&#128196; View Lunaris Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top:40px;padding:24px 28px;border-radius:var(--radius-lg);" class="glass-panel">
+            <p class="page-kicker" style="margin-bottom:10px;">General Information</p>
+            <h2 style="margin:0 0 12px;font-family:var(--font-display);font-size:1.3rem;letter-spacing:-0.02em;">Processing Timeline & Questions</h2>
+            <p style="color:var(--secondary-text);line-height:1.75;margin:0 0 10px;">
+                We aim to process verified account deletion requests within <strong style="color:var(--text);">30 days</strong> of receipt. Only apps with user accounts are listed on this page. Apps without accounts (Slither Saga, Tic-Tac-Toe, Space Invaders, SafePing, Ledgerly, Momentum) store data only on your device — uninstall the app or clear its storage to remove local data.
+            </p>
+            <p style="color:var(--secondary-text);line-height:1.75;margin:0;">
+                For any questions, email <a href="mailto:13dimensions.studio@gmail.com">13dimensions.studio@gmail.com</a>.
+            </p>
+        </div>
+    </main>
+
+    <script>
+        const layers = Array.from(document.querySelectorAll("[data-parallax-layer]"));
+        if (layers.length) {
+            let rafId = 0;
+            window.addEventListener("pointermove", (e) => {
+                const x = (e.clientX / window.innerWidth) - 0.5;
+                const y = (e.clientY / window.innerHeight) - 0.5;
+                if (!rafId) {
+                    rafId = requestAnimationFrame(() => {
+                        layers.forEach((l) => {
+                            const d = Number(l.dataset.parallaxLayer || 0);
+                            l.style.transform = `translate3d(${x * 80 * d}px, ${y * 80 * d}px, 0)`;
+                        });
+                        rafId = 0;
+                    });
+                }
+            }, { passive: true });
+        }
+
+        // Highlight card if URL hash matches
+        const hash = window.location.hash.replace(/^#/, "");
+        if (hash) {
+            const card = document.getElementById(hash);
+            if (card) {
+                card.style.borderColor = "rgba(59,130,246,0.45)";
+                card.scrollIntoView({ behavior: "smooth", block: "center" });
+            }
+        }
+    </script>
+</body>
+</html>

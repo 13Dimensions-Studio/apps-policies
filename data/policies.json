@@ -144,6 +144,24 @@
         "No Account"
       ],
       "order": 8
+    },
+    {
+      "id": "lunaris",
+      "name": "Lunaris",
+      "shortName": "Lunaris",
+      "status": "Published",
+      "effectiveDate": "2026-10-22",
+      "platform": "Android",
+      "category": "Wallpaper & Media",
+      "logo": "assets/images/apps/lunaris.png",
+      "source": "policies/lunaris.md",
+      "excerpt": "Firebase-backed wallpaper app with guest and account modes, AdMob for free users, and Google Play subscription billing for Premium.",
+      "badges": [
+        "Firebase",
+        "Subscription",
+        "AdMob"
+      ],
+      "order": 9
     }
   ]
 }
