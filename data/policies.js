@@ -953,119 +953,73 @@ If you have questions about this Privacy Policy or Momentum's privacy practices,
             logo: "assets/images/apps/lunaris.png",
             excerpt: "Firebase-backed wallpaper app with guest and account modes, AdMob for free users, and Google Play subscription billing for Premium.",
             order: 9,
-            content: `# Privacy Policy for Lunaris
+            content: `﻿# Lunaris Privacy Policy
 
-Effective date: October 22, 2026
+**Last updated: October 22, 2026**
 
-Developer: 13 Dimensions Studio  
-Contact: 13dimensions.studio@gmail.com  
-Website: https://13dstudio.vercel.app/
+Lunaris is provided by 13 Dimensions Studio (“we,” “us,” or “our”). This policy explains how the Lunaris Android app handles information when you use it.
 
-This Privacy Policy explains how Lunaris ("App", "we", "us", or "our") by 13 Dimensions Studio handles information when you use the App.
+**Contact:** [13dimensions.studio@gmail.com](mailto:13dimensions.studio@gmail.com)
 
-## 1. Overview
+## Information we handle
 
-Lunaris is an Android wallpaper application with guest and signed-in account modes. Guest users can browse, search, view collections and wallpapers, save favorites, and set wallpapers without a Lunaris account. Signed-in users get synchronized favorites, Base download quotas, and optional Premium access via Google Play subscription.
+### Guest use
 
-## 2. Information We Collect
+You can browse, search, view collections and wallpapers, save favorites, and set wallpapers without a Lunaris account. Guest favorites, cached catalog/configuration data, announcement display/dismissal state, and app preferences are stored on your device.
 
-### A. Guest Use (No Account)
-Guest favorites, cached catalog and configuration data, announcement display and dismissal state, and app preferences are stored locally on your device. No personal information is transmitted to Lunaris servers during guest use.
+### Accounts and Firebase
 
-### B. Accounts & Firebase Authentication
-Lunaris uses **Firebase Authentication** for email/password accounts. Firebase processes your:
-- Email address
-- Account identifier (UID)
-- Display name
-- Authentication credentials
-- Technical request metadata
+Lunaris uses Firebase Authentication for email/password accounts. Firebase processes your email address, account identifier, display name, authentication credentials, and technical request information to authenticate and secure your account. Passwords are handled by Firebase Authentication; Lunaris does not store plaintext passwords in its own app database.
 
-Passwords are handled by Firebase Authentication. Lunaris does not store plaintext passwords in its own database.
+For signed-in users, Firebase Firestore stores account profile details (display name, email, and timestamps), synchronized favorite wallpaper IDs, and date-keyed Base download quota counts. A selected profile photo is stored as a local device reference in the current app and is not uploaded to Lunaris servers. If an account profile has a remote photo URL, that URL may be stored with the profile.
 
-### C. Firebase Firestore (Signed-In Users)
-For signed-in users, Firebase Firestore stores:
-- Account profile details (display name, email, timestamps)
-- Synchronized favorite wallpaper IDs
-- Date-keyed Base download quota counts
+### Device storage and images
 
-A selected profile photo is stored as a local device reference in the current app and is **not** uploaded to Lunaris servers. If an account profile has a remote photo URL, that URL may be stored with the profile.
+Lunaris caches catalog/configuration data and app state locally. Android Auto Backup is enabled for the app with the platform's default inclusion rules; depending on a user's Android backup settings and device-transfer behavior, compatible local app data may be backed up and later restored. Users can clear local app data or uninstall the app, but a platform backup may restore backed-up data during a later install or device transfer. Wallpaper downloads and Profile Photo exports are saved to Android shared storage in the Lunaris gallery location. These remain on your device until you delete them. When you choose Share, Android passes the selected export to the app you choose; that recipient handles it under its own privacy policy.
 
-### D. Device Storage & Images
-Lunaris caches catalog and configuration data and app state locally. Wallpaper downloads and profile photo exports are saved to Android shared storage in the Lunaris gallery location. These remain on your device until you delete them. When you share an export, Android passes the file to the app you choose; that recipient handles it under its own privacy policy.
+On older Android versions, the app may request access to existing images so it can display saved Lunaris exports. On newer Android versions it uses Android media access mechanisms. The current app manifest does not request location, contacts, microphone, or camera permissions.
 
-On older Android versions the App may request access to existing images to display saved Lunaris exports. On newer Android versions it uses Android media access mechanisms. The App does not request location, contacts, microphone, or camera permissions.
+### Advertising
 
-### E. Advertising (Guest & Base Users)
-Guest and Base users may see **Google Mobile Ads (AdMob)** placements. Premium users do not see Lunaris ad placements. Google's Mobile Ads SDK may automatically collect or share:
-- IP address
-- App and ad interaction data
-- Diagnostic information
-- Device and account identifiers (including Advertising ID)
+Guest and Base users may see Google Mobile Ads placements. Premium users do not see Lunaris ad placements. Google's Mobile Ads SDK may automatically collect/share IP address, app/ad interactions, diagnostic information, and device/account identifiers for ad delivery, measurement, analytics, and fraud prevention. See [Google's Privacy Policy](https://policies.google.com/privacy) and [Google Mobile Ads data disclosure](https://developers.google.com/admob/android/privacy/play-data-disclosure).
 
-This data is used for ad delivery, measurement, analytics, and fraud prevention under Google's own policies. See [Google's Privacy Policy](https://policies.google.com/privacy) and [Google Mobile Ads data disclosure](https://developers.google.com/admob/android/privacy/play-data-disclosure).
+### Purchases
 
-### F. Subscription & Purchases
-Premium subscriptions are processed by **Google Play Billing**. Google Play handles payment information and subscription management. Lunaris receives subscription and product status through Google Play and stores limited account-scoped entitlement metadata locally so access can be refreshed and briefly supported during network outages. Lunaris does not receive or store full payment-card or bank details. Manage or cancel subscriptions through Google Play.
+Premium subscriptions are processed by Google Play Billing. Google Play handles payment information and subscription management. Lunaris receives subscription/product status through Google Play and stores limited account-scoped entitlement metadata locally so access can be refreshed and briefly supported during network outages. Lunaris does not receive or store full payment-card or bank details. Manage or cancel subscriptions through Google Play.
 
-### G. Network & Content Providers
-Lunaris requests public catalog, wallpaper, announcement, and studio contact content from GitHub-hosted services. Network operators and content providers may process ordinary connection data such as IP address and request metadata to deliver requested files.
+### Network and content providers
 
-## 3. How We Use Information
+Lunaris requests public catalog, wallpaper, announcement, and studio contact content from GitHub-hosted services. Those providers and network operators may process ordinary connection data, such as IP address and request metadata, to deliver requested files. Firebase and Google Mobile Ads process information as described above.
 
-We use information to:
-- Create, secure, and manage user accounts
-- Display profiles and synchronize favorites across devices
-- Enforce Base download limits and provide Premium features
-- Cache content and remember announcement state
-- Save, display, set, and share wallpapers at your direction
-- Deliver and measure advertisements for eligible users
-- Prevent invalid activity and fraud
-- Maintain and troubleshoot the App
+## How information is used
 
-## 4. Sharing of Information
+We use information to create and secure accounts; display profiles and synchronize favorites; enforce Base download limits and provide Premium features; cache content and remember announcement state; save, display, set, and share wallpapers at your direction; deliver and measure ads for eligible users; prevent invalid activity; and maintain and troubleshoot Lunaris.
 
-We do not sell personal information. Information is shared with service providers as needed to operate Lunaris, including:
-- **Firebase / Google** — authentication, Firestore, and cloud services
-- **Google Play** — subscription and billing management
-- **Google Mobile Ads** — advertising for guest and Base users
-- **Public content hosting services** — wallpaper catalog delivery
+## Sharing
 
-When you initiate a share action, the third-party app you select receives the content you chose. We may also disclose information when required by law or to protect users, Lunaris, or our legal rights.
+We do not sell personal information. Information is shared with service providers as needed to operate Lunaris, including Firebase/Google, Google Play, Google Mobile Ads, and public content hosting services. When you initiate a share, the third-party app you select receives the content you chose. We may also disclose information when required by law or needed to protect users, Lunaris, or our legal rights.
 
-## 5. Data Retention & Account Deletion
+## Retention and deletion
 
-Account information and synchronized favorites remain in Firebase while an account is active. Local app data remains on your device until app storage is cleared or the App is uninstalled. Exported wallpaper images in the device gallery are separate files and must be deleted independently.
+Account information and synchronized favorites remain in Firebase while an account is active. Local app data remains on the device until app data is cleared or the app is uninstalled, subject to Android Auto Backup settings that may preserve and restore compatible data. Exported images in the device gallery are separate files and may need to be deleted separately. Service providers may retain limited operational/security records according to their own retention terms.
 
-**To request account deletion**, email **13dimensions.studio@gmail.com** from the address registered to your Lunaris account. Use the subject **"Lunaris account and data deletion."** Do not include your password. We will verify the request and delete the Firebase Authentication account and associated profile, favorites, and download quota records.
+To request deletion of your Lunaris account and associated Firebase profile, favorites, and download quota records, email **13dimensions.studio@gmail.com** from the account email address with the subject **“Lunaris account and data deletion.”** Do not include your password. We will verify the request and remove the account and associated records. You may also use Profile → Contact Us in the app to reach the studio. Deleting a Lunaris account does not automatically cancel a Google Play subscription; cancel it separately in Google Play. Local gallery exports are not deleted when the account is removed.
 
-You can also initiate a request from within the App by opening **Profile → Contact Us**.
+## Security
 
-> Deleting your Lunaris account does **not** automatically cancel a Google Play subscription. Cancel your subscription separately in Google Play.
+We use Firebase and Google services to provide authentication, account data, advertising, and billing. Their services use security measures described in their terms and policies. No internet service or local device storage can be guaranteed completely secure, so keep your device and account credentials protected.
 
-Local gallery exports are **not** deleted when the account is removed.
+## Children's privacy
 
-## 6. Security
+Lunaris is not designed to collect personal information directly from children under 13. Account creation requires an email address. If you believe a child has provided account information, contact us at the address above so we can review the request.
 
-We rely on Firebase and Google services to provide authentication, account data storage, advertising, and billing. These services use security measures described in their respective terms and policies. No internet service or local device storage can be guaranteed completely secure — keep your device and account credentials protected.
+## International processing
 
-## 7. Children's Privacy
+Our service providers may process information in countries other than the country where you live. Their privacy and transfer terms apply to their processing, in addition to this policy.
 
-Lunaris is not designed to collect personal information from children under the age of 13. Account creation requires an email address. If you believe a child has provided account information through the App, contact us at the address above so we can review and take appropriate action.
+## Changes
 
-## 8. International Processing
-
-Service providers used by Lunaris may process information in countries other than your country of residence. Their privacy and data transfer terms apply to their processing in addition to this policy.
-
-## 9. Changes to This Privacy Policy
-
-We may update this policy as Lunaris changes. We will post the current version at the policy URL used in the app and on Google Play, and update the date at the top of this document.
-
-## 10. Contact Us
-
-If you have questions about this Privacy Policy or Lunaris's privacy practices, contact us at:
-
-- **Email**: 13dimensions.studio@gmail.com  
-- **Website**: https://13dstudio.vercel.app/
+We may update this policy as Lunaris changes. We will post the current version at the policy URL used in the app and Google Play and update the date above.
 `
         }
     ]
