@@ -55,7 +55,7 @@ We aim to process verified deletion requests within **30 days** of receiving the
 
 ## More Information
 
-For full details about what information Lunaris handles and how it is used, see the [Lunaris Privacy Policy](https://khalid-hussain-dev.github.io/apps-policies/?app=lunaris#lunaris).
+For full details about what information Lunaris handles and how it is used, see the [Lunaris Privacy Policy](../index.html?app=lunaris#lunaris).
 
 ## Contact
 
