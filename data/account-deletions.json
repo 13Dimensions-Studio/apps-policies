@@ -15,6 +15,21 @@
       "requestEmail": "13dimensions.studio@gmail.com",
       "emailSubject": "Lunaris account and data deletion",
       "order": 1
+    },
+    {
+      "id": "pro-doc-scanner",
+      "name": "Pro Document Scanner",
+      "shortName": "Pro Document Scanner",
+      "status": "Available",
+      "effectiveDate": "2026-10-28",
+      "platform": "Android",
+      "category": "Productivity",
+      "logo": "assets/images/apps/prodocscanner.png",
+      "source": "account-deletions/pro-doc-scanner.md",
+      "excerpt": "Request deletion of your Pro Document Scanner Firebase Authentication account and associated cloud profile, subscription status, and Firestore records.",
+      "requestEmail": "13dimensions.studio@gmail.com",
+      "emailSubject": "Pro Document Scanner account and data deletion",
+      "order": 2
     }
   ]
 }

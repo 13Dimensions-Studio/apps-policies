@@ -50,11 +50,13 @@ def parse_front_matter(raw: str) -> tuple[dict, str]:
 
 
 def infer_name(content: str, fallback_stem: str) -> str:
+    content = content.lstrip("\ufeff")
     heading_match = re.search(r"^#\s+(.+)$", content, flags=re.MULTILINE)
     if heading_match:
         heading = heading_match.group(1).strip()
         heading = re.sub(r"^Privacy Policy for\s+", "", heading, flags=re.IGNORECASE)
         heading = re.sub(r"\s*[-—]\s*Account\s*&\s*Data\s*Deletion\s*Request.*$", "", heading, flags=re.IGNORECASE)
+        heading = re.sub(r"\s+Account\s+and\s+Data\s+Deletion\s+Request.*$", "", heading, flags=re.IGNORECASE)
         heading = heading.replace("**", "").strip()
         if heading:
             return heading
@@ -62,7 +64,8 @@ def infer_name(content: str, fallback_stem: str) -> str:
 
 
 def infer_effective_date(content: str) -> str:
-    match = re.search(r"^(?:Effective date|Last updated):\s*(.+)$", content, flags=re.IGNORECASE | re.MULTILINE)
+    content = content.lstrip("\ufeff")
+    match = re.search(r"^(?:\*\*)?(?:Effective date|Last updated):\s*(.+?)(?:\*\*)?$", content, flags=re.IGNORECASE | re.MULTILINE)
     if not match:
         return ""
 
@@ -76,11 +79,12 @@ def infer_effective_date(content: str) -> str:
 
 
 def infer_excerpt(content: str) -> str:
+    content = content.lstrip("\ufeff")
     blocks = [block.strip() for block in re.split(r"\n\s*\n", content) if block.strip()]
     for block in blocks:
         if block.startswith("#"):
             continue
-        if block.lower().startswith("effective date:"):
+        if re.match(r"^(?:\*\*)?(?:effective date|last updated):", block, flags=re.IGNORECASE):
             continue
         if block.lower().startswith("developer:"):
             continue

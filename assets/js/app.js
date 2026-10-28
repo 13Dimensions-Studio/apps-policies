@@ -366,7 +366,7 @@ function markdownToHtml(markdown) {
 function parseInline(text) {
     const storedLinks = [];
     const withPlaceholders = text.replace(
-        /\[([^\]]+)\]\((https?:\/\/[^)\s]+|mailto:[^)\s]+)\)/g,
+        /\[([^\]]+)\]\((https?:\/\/[^)\s]+|mailto:[^)\s]+|\.\.?\/[^)\s]+|[a-zA-Z0-9_-]+\/[^)\s]+)\)/g,
         (_, label, url) => {
             const token = `@@LINK${storedLinks.length}@@`;
             storedLinks.push(`<a href="${escapeHtml(url)}" target="_blank" rel="noreferrer">${escapeHtml(label)}</a>`);
