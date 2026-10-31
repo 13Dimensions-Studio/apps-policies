@@ -1,107 +1,64 @@
 # Pro Document Scanner Privacy Policy
 
-**Last updated: October 28, 2026**
+**Last updated: October 31, 2026**
 
-Pro Document Scanner is provided by 13 Dimensions Studio (“we,” “us,” or “our”). This policy explains how the Pro Document Scanner Android application handles information when you use it.
+Pro Document Scanner is provided by 13 Dimensions Studio (“we,” “us,” or “our”). This policy describes the information handled by the current Android app build.
 
 **Contact:** [13dimensions.studio@gmail.com](mailto:13dimensions.studio@gmail.com)
 
 ---
 
-## Information we handle
+## Information and processing
 
-### On-device document processing & privacy
-Pro Document Scanner is designed with a strict privacy-first architecture. All core document operations—including camera scanning, edge detection and perspective distortion correction, document filters, PDF generation, PDF merging, PDF compression, PDF splitting, password protection/encryption, PDF unlocking, PDF-to-image conversion, and text recognition (OCR)—**are performed entirely locally on your device**.
+### Documents, images, camera, and OCR
 
-We do **not** transmit, upload, host, or inspect the contents of your scanned documents, camera captures, imported files, generated PDFs, or extracted OCR text on any remote server. Your files remain completely private to you.
+The app performs scanning, page detection and perspective correction, PDF creation, PDF merging, PDF compression, PDF splitting, PDF protection/unlocking, PDF-to-image conversion, and OCR on the device. The app does not upload document contents or extracted OCR text to a Pro Document Scanner document-processing server.
+
+When you choose to scan or use OCR with the camera, the app captures images on the device. When you choose an existing image or PDF, Android's picker gives the app access to that selected item for the requested operation.
 
 ### Accounts and Firebase
-Pro Document Scanner offers user accounts to manage your profile, sync your subscription status, and verify access across devices. 
 
-- **Firebase Authentication:** Handles email and password account creation, sign-in, and email verification. Firebase Authentication processes your email address, unique account identifier (UID), display name, and technical connection credentials to secure your account. Passwords are encrypted and managed exclusively by Firebase Authentication; Pro Document Scanner does not store or have access to plaintext passwords.
-- **Firebase Firestore:** For signed-in users, Firestore stores cloud profile information including your display name, registered email address, account creation and update timestamps, subscription tier status (Free or Pro), and diagnostic billing status. If you are granted manual reviewer access, that authorization is recorded in your Firestore profile.
+The app uses Firebase Authentication for email/password registration, sign-in, and email verification. Firebase handles account identity and credentials; the app does not store plaintext passwords.
 
-### Device storage, camera, and exports
-- **Camera:** When you choose to scan physical documents, the app uses your device camera via CameraX to capture pages. Camera feeds are processed in real time in device memory and are never streamed or uploaded.
-- **Storage & Media:** The app requests storage/media access solely to import existing PDF files or images you select for processing (e.g., merging, compressing, or OCR), and to save your finalized documents.
-- **Saved Files:** Generated PDFs, compressed documents, split files, and exported images are saved directly to your device storage (such as your device’s `Downloads/Pro Document Scanner/` folder or app cache). These files remain under your sole ownership on your hardware until you choose to move, share, or delete them.
-- **Sharing:** When you tap Share, Android’s standard system share sheet passes the selected document file to the recipient application of your choice (e.g., email client, cloud drive, messaging app). That third-party recipient handles your file under its own privacy policy.
+Firebase Authentication is the source for account identity and profile details such as name, email, sign-in provider, and email verification. For manual account identification, the app stores `displayName`, `email`, the effective plan label, the account creation timestamp, and a last-seen timestamp in `users/{uid}`. The plan label is informational and is not used to grant access. `createdAt` is written once; `lastSeenAt` is updated at most once per account per 24 hours. The app does not store provider or verification copies, app-version details, or purchase tokens there. Firestore may also contain an administrator-managed `manualOverrideStatus` on `users/{uid}` and reviewer access in the separate `premiumEntitlements/{uid}` document. To enforce the Free plan's daily limits across accounts and devices, the app records a small per-account counter for OCR and PDF merge operations in `users/{uid}/dailyUsage/{feature}`. Each counter contains the feature identifier, UTC day, and number of uses for that day; it is updated when a Free user performs the operation. A device-local cache keeps the current account's daily count and any offline uses pending until they can be synchronized. Firestore access is governed by the project's security rules.
 
-### Advertising
-Free (Base) users may see Google Mobile Ads (AdMob) placements, including banner, interstitial, and app open ads. Subscribed or authorized Pro users enjoy an ad-free experience. 
+Google Play Billing runs on the device and returns purchase state to the app. When starting a purchase, the app sends Google Play a SHA-256 obfuscation of the signed-in Firebase account ID to associate the purchase with the app account. The current implementation is client-trusted; it does not verify purchases with a trusted server. The app caches entitlement state locally for the associated Firebase account, uses a bounded offline grace period for subscriptions, and treats lifetime purchases separately. Google Play handles payment processing. The app does not receive card numbers or bank account details.
 
-Google’s Mobile Ads SDK may automatically collect and process certain data—such as IP address, pseudonymous device identifiers (e.g., Android Advertising ID), app and ad interactions, and diagnostic metrics—for ad serving, frequency capping, fraud prevention, and performance measurement. For more details, consult [Google's Privacy Policy](https://policies.google.com/privacy) and [Google Mobile Ads data disclosure](https://developers.google.com/admob/android/privacy/play-data-disclosure).
+### Device storage and sharing
 
-### In-app purchases & subscriptions
-Pro Document Scanner offers Pro subscriptions (Monthly, Yearly) and one-time Lifetime Pro access. All financial transactions and payment processing are handled securely by **Google Play Billing**. 
+The app uses public Downloads folders for generated PDFs, merged/compressed/split/protected/unlocked PDFs, converted images, and saved OCR text. Scan captures are kept in app-specific external storage and copied to the device MediaStore under Pictures/ProDocScanner when possible. OCR camera captures use app-specific external Pictures storage. Files remain on the device until you delete them or remove the app-specific data; public Downloads and MediaStore files may remain after uninstall.
 
-We do **not** collect, receive, or store your credit card numbers, bank information, or billing address. Google Play provides our application with entitlement receipts and product identifiers. We store limited entitlement state locally and in your Firestore account record so your Pro access can be confirmed, restored, and honored across app launches. You can manage or cancel recurring subscriptions at any time via Google Play Subscriptions.
+When you choose Share, Android passes the selected file or text to the app you choose. That recipient handles the content under its own policies.
 
-### Remote configuration
-The app periodically fetches public studio contact details (studio name, support email, website link, and LinkedIn profile) from studio-managed configuration hosted on secure web services (GitHub / Vercel). This request only transmits standard HTTP connection metadata (such as your device IP address) to deliver the configuration payload.
+### Advertising and remote links
 
----
+Free users may see Google Mobile Ads placements, including app-open, banner, and interstitial ads. Pro users are not shown those app ad placements. The Mobile Ads SDK may process device/ad identifiers, IP address, ad interaction, and diagnostic data for ad serving, measurement, fraud prevention, and related purposes. See [Google's Privacy Policy](https://policies.google.com/privacy) and [Google Mobile Ads data disclosure](https://developers.google.com/admob/android/privacy/play-data-disclosure).
 
-## How information is used
+The app fetches public studio/contact links from the JSON endpoint configured in the app's `remote_links_config_url` resource and caches the values locally. The current endpoint is hosted on GitHub. The request sends ordinary network connection metadata, such as IP address, to the endpoint host.
 
-We use the limited information we process to:
-- Authenticate your identity and secure your account.
-- Synchronize and verify your Free vs. Pro entitlement across sessions.
-- Process and generate PDF documents and extract text at your explicit direction on your device.
-- Save and organize generated documents in your device's Downloads directory.
-- Deliver non-intrusive advertisements to Base (Free) users.
-- Display studio support and contact information.
-- Provide customer support and troubleshoot application issues.
+## How information is used and shared
 
----
+Information is used to authenticate accounts, maintain session state, apply administrator-managed access overrides, enforce per-account daily OCR and merge limits, display studio contact information, serve ads to Free users, and perform the document operation you request on-device.
 
-## Sharing
-
-We do **not** sell, rent, or trade your personal information. Information is only shared with third-party service providers strictly necessary to operate the application:
-- **Google / Firebase:** For cloud authentication, account record storage, and diagnostic metrics.
-- **Google Play:** For subscription verification and billing processing.
-- **Google Mobile Ads (AdMob):** For ad delivery and measurement to Free tier users.
-- **Third-Party Apps You Select:** When you explicitly tap "Share" or open an export in another app on your device.
-
-We may also disclose information if required to comply with applicable law, regulation, legal process, or governmental request.
-
----
+We do not sell personal information. The app uses Google/Firebase for authentication and profile data, Google Play for purchases, Google Mobile Ads for advertising, the configured remote-links host for studio links, and third-party apps you select to receive shared files or text. Information may also be disclosed where required by law.
 
 ## Retention and deletion
 
-- **Account Data:** Your account information and subscription status remain in Firebase Authentication and Firestore as long as your account remains active.
-- **Local Documents:** Scanned pages, PDFs, and exported images stored on your device or in `Downloads/Pro Document Scanner/` remain on your device until you manually delete them or uninstall the app.
-- **Account & Data Deletion:** You have the right to request full deletion of your account and associated cloud data at any time. To request deletion, please email **13dimensions.studio@gmail.com** from your registered account email with the subject **“Pro Document Scanner account and data deletion”**, or refer to our [Account and Data Deletion Request](../account-deletions/?app=pro-doc-scanner#pro-doc-scanner) page. Deleting your account will remove your Firebase Authentication record and Firestore user profile. Please note that deleting your account does not cancel active Google Play subscriptions (which must be cancelled in Google Play), nor does it delete local files stored on your phone.
+Firebase Authentication retains account identity under its own retention rules. Firestore retains the latest daily OCR and merge counters and any administrator-managed access override while they remain in use. Daily counters are overwritten as the UTC day changes; account deletion requests cover the account's nested daily usage records and any user document. The device-local quota cache ignores prior-day values after the UTC date changes and overwrites them the next time quota is accessed; clearing app data removes the cache. Other local app-specific files are removed when app data is removed or the app is uninstalled; files saved to public Downloads or MediaStore may remain and should be deleted separately.
 
----
+The current app does not provide an in-app account deletion operation. To request deletion of the Firebase Authentication account and associated cloud records, follow [the account and data deletion instructions](../account-deletions/?app=pro-doc-scanner#pro-doc-scanner). Deleting an account does not cancel a Google Play subscription or delete public files already saved to the device. Cancel subscriptions through Google Play.
 
-## Security
+## Security and children's privacy
 
-We leverage Google Cloud and Firebase infrastructure to safeguard your account records and authentication credentials. All network communications use standard TLS encryption. While we implement strict measures to protect your data, no mobile application or wireless transmission is 100% impenetrable; we encourage you to protect your device with a secure lock screen and keep your account password confidential.
+Firebase and Google services use their own security controls, and the app communicates with those services over their configured network connections. No method of transmission or storage is completely secure; protect your device and account credentials.
 
----
+The app is not directed to children under 13 and does not knowingly seek to collect personal information from children under 13. Contact us if you believe a child has provided account information so we can review the request.
 
-## Children's privacy
+## International processing and changes
 
-Pro Document Scanner is not directed toward children under the age of 13. We do not knowingly collect personal information from children under 13. Account creation requires a valid email address. If you believe a child has provided us with personal information, please contact us immediately at [13dimensions.studio@gmail.com](mailto:13dimensions.studio@gmail.com) so we can promptly delete the account.
-
----
-
-## International processing
-
-Our service providers (Google, Firebase) may store and process information in the United States and other jurisdictions outside your home country. By using Pro Document Scanner, you acknowledge that your account data may be transferred to and maintained on servers located outside your state, province, or country.
-
----
-
-## Changes to this policy
-
-We may update this Privacy Policy from time to time. When changes are made, we will update the "Last updated" date at the top of this document. Continued use of the application after any modifications constitutes acceptance of the revised policy.
-
----
+Google, Firebase, and other service providers may process information in countries other than your own under their terms and policies. We may update this policy; the date above will be changed when we do.
 
 ## Contact
-
-If you have any questions, concerns, or requests regarding this Privacy Policy or your data, please contact us at:
 
 **13 Dimensions Studio**  
 Email: [13dimensions.studio@gmail.com](mailto:13dimensions.studio@gmail.com)  

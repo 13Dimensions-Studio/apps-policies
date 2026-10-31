@@ -70,7 +70,7 @@ For account-deletion questions or requests, contact us at:
             name: "Pro Document Scanner",
             shortName: "Pro Document Scanner",
             status: "Available",
-            effectiveDate: "2026-10-28",
+            effectiveDate: "2026-10-31",
             platform: "Android",
             category: "Productivity",
             logo: "assets/images/apps/prodocscanner.png",
@@ -78,56 +78,35 @@ For account-deletion questions or requests, contact us at:
             requestEmail: "13dimensions.studio@gmail.com",
             emailSubject: "Pro Document Scanner account and data deletion",
             order: 2,
-            content: `# Pro Document Scanner — Account & Data Deletion Request
+            content: `# Pro Document Scanner Account and Data Deletion Request
 
-Last updated: October 28, 2026
+**Last updated: October 31, 2026**
 
-Developer: 13 Dimensions Studio  
-Contact: 13dimensions.studio@gmail.com
+The current Pro Document Scanner Android app does not include an in-app account deletion control. To request deletion of your Pro Document Scanner account and associated cloud records, contact 13 Dimensions Studio by email.
 
-Pro Document Scanner uses Firebase Authentication for user accounts. You may request the deletion of your account and all associated cloud data at any time.
+## How to request deletion
 
-## How to Submit a Request
+Email **13dimensions.studio@gmail.com** from the email address registered to your account. Use the subject **Pro Document Scanner account and data deletion** and state that you want your account and associated data deleted. Do not include your password.
 
-Email **13dimensions.studio@gmail.com** from the email address registered to your Pro Document Scanner account with the subject line:
+If you cannot send the request from your registered address, explain the access problem. We may ask for information needed to verify that you own the account before processing the request.
 
-> **"Pro Document Scanner account and data deletion"**
+The app's drawer also has a Contact Us action that opens an email to the studio. It does not itself delete an account.
 
-In the message, state that you want your account and associated data deleted. **Do not include your password.**
+## Scope and related data
 
-If you cannot email from the registered address, contact us at the same email and explain the access problem. We may need to verify account ownership before processing.
+A processed request covers the Firebase Authentication account and associated Firestore records that can be identified with that account, including the \`displayName\`, \`email\`, \`plan\`, \`createdAt\`, and \`lastSeenAt\` profile fields on \`users/{uid}\`, nested \`users/{uid}/dailyUsage/{feature}\` OCR and merge quota counters, any \`manualOverrideStatus\` on \`users/{uid}\`, and the separate reviewer entitlement document if applicable. The daily usage counters contain only a feature identifier, UTC day, and count; they are retained with the account until overwritten by a later day's use or removed through the account deletion request. A small device-local quota cache may remain until the UTC day changes and the app next accesses the quota, or until the app's local data is cleared.
 
-You can also start a request from within the app by opening the sidebar/drawer and tapping **Contact Us**.
+Deleting the account does not:
 
-## What Will Be Deleted
+- Delete documents or scans already saved in public Downloads or MediaStore. Delete those files separately on your device.
+- Cancel an active Google Play subscription. Cancel it separately through Google Play.
+- Remove records a service provider may retain under its own operational, security, financial, or legal retention rules.
 
-After verifying and processing your request, we will delete:
-
-- Your Firebase Authentication account
-- Your Firestore cloud profile (display name, registered email address, account timestamps)
-- Subscription tier status and billing diagnostic records stored in Firestore
-- Any reviewer authorization records associated with your account
-
-## What Will NOT Be Deleted
-
-- **Document files, scanned pages, exported PDFs, and converted images** saved to your device or your \`Downloads/Pro Document Scanner/\` folder — all document processing happens on-device, and you retain full ownership of those local files. Delete them separately from your device.
-- **Your Google Play subscription** — deleting your account does not automatically cancel billing. Cancel your subscription separately via Google Play before or after submitting the deletion request.
-- **Limited service-provider records** that Firebase or Google may retain for operational, security, financial, or legal reasons under their own retention terms.
-
-## Timeline
-
-We aim to process verified deletion requests within **30 days** of receiving them.
-
-## More Information
-
-For full details about what information Pro Document Scanner handles and how it is used, see the [Pro Document Scanner Privacy Policy](../index.html?app=pro-doc-scanner#pro-doc-scanner).
+For information about data handled by the app, see the [Privacy Policy](../index.html?app=pro-doc-scanner#pro-doc-scanner).
 
 ## Contact
 
-For account-deletion questions or requests, contact us at:
-
-- **Email**: 13dimensions.studio@gmail.com
-- **Website**: https://13dstudio.vercel.app/
+For account deletion questions or requests, email [13dimensions.studio@gmail.com](mailto:13dimensions.studio@gmail.com).
 `
         }
     ]
