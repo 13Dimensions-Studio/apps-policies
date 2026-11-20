@@ -3,7 +3,9 @@ const DEFAULT_LOGO = "assets/images/logo.jpg";
 
 const state = {
     policies: [],
-    selectedId: null
+    selectedId: null,
+    searchQuery: "",
+    selectedCategory: "all"
 };
 
 const els = {};
@@ -35,7 +37,12 @@ async function initialize() {
         });
 
     renderSidebar();
-    els.metricTotalPolicies.textContent = String(state.policies.length);
+    renderDashboardCards();
+    initCategoryFilters();
+
+    if (els.metricTotalPolicies) {
+        els.metricTotalPolicies.textContent = String(state.policies.length);
+    }
     initializeParallax();
 
     const requestedId = getRequestedPolicyId();
@@ -70,20 +77,53 @@ function cacheElements() {
         "policyLinkCaption",
         "policyLink",
         "policyTitle",
-        "policyContent"
+        "policyContent",
+        /* Optional enhanced elements */
+        "policyCardsGrid",
+        "policySearchInput",
+        "sidebarSearchInput",
+        "currentBreadcrumbName",
+        "categoryFilterContainer"
     ].forEach((id) => {
-        els[id] = document.getElementById(id);
+        const el = document.getElementById(id);
+        if (el) {
+            els[id] = el;
+        }
     });
 }
 
 function bindEvents() {
     [els.dashboardMenuToggle, els.policyMenuToggle, els.openPoliciesButton].forEach((button) => {
-        button.addEventListener("click", () => setSidebarOpen(true));
+        if (button) {
+            button.addEventListener("click", () => setSidebarOpen(true));
+        }
     });
 
-    els.sidebarScrim.addEventListener("click", () => setSidebarOpen(false));
-    els.backHomeButton.addEventListener("click", goHome);
-    els.copyLinkButton.addEventListener("click", copySelectedLink);
+    if (els.sidebarScrim) {
+        els.sidebarScrim.addEventListener("click", () => setSidebarOpen(false));
+    }
+    if (els.backHomeButton) {
+        els.backHomeButton.addEventListener("click", goHome);
+    }
+    if (els.copyLinkButton) {
+        els.copyLinkButton.addEventListener("click", copySelectedLink);
+    }
+
+    // Dashboard search input
+    if (els.policySearchInput) {
+        els.policySearchInput.addEventListener("input", (e) => {
+            state.searchQuery = e.target.value.trim().toLowerCase();
+            renderDashboardCards();
+        });
+    }
+
+    // Sidebar search input
+    if (els.sidebarSearchInput) {
+        els.sidebarSearchInput.addEventListener("input", (e) => {
+            const query = e.target.value.trim().toLowerCase();
+            renderSidebar(query);
+        });
+    }
 
     document.addEventListener("keydown", (event) => {
         if (event.key === "Escape") {
@@ -92,19 +132,115 @@ function bindEvents() {
     });
 }
 
-function renderSidebar() {
+function getFilteredPolicies() {
+    return state.policies.filter((policy) => {
+        const matchesQuery = !state.searchQuery || 
+            (policy.name && policy.name.toLowerCase().includes(state.searchQuery)) ||
+            (policy.excerpt && policy.excerpt.toLowerCase().includes(state.searchQuery)) ||
+            (policy.category && policy.category.toLowerCase().includes(state.searchQuery));
+
+        const matchesCategory = state.selectedCategory === "all" ||
+            (policy.category && policy.category.toLowerCase().includes(state.selectedCategory));
+
+        return matchesQuery && matchesCategory;
+    });
+}
+
+function renderDashboardCards() {
+    if (!els.policyCardsGrid) return;
+
+    const filtered = getFilteredPolicies();
+    els.policyCardsGrid.innerHTML = "";
+
+    if (filtered.length === 0) {
+        els.policyCardsGrid.innerHTML = `
+            <div class="empty-state" style="grid-column: 1 / -1; min-height: 240px; padding: 24px;">
+                <p class="empty-kicker">No Results</p>
+                <h2>No privacy policies found</h2>
+                <p>Try refining your search or category filter.</p>
+            </div>
+        `;
+        return;
+    }
+
+    filtered.forEach((policy) => {
+        const card = document.createElement("div");
+        card.className = "app-card";
+        const logoSrc = policy.logo || DEFAULT_LOGO;
+        const category = policy.category || "Application";
+        const status = policy.status || "Published";
+
+        card.innerHTML = `
+            <div class="app-card-head">
+                <img src="${escapeHtml(logoSrc)}" alt="${escapeHtml(policy.name)} icon" class="app-card-icon" onerror="this.src='${DEFAULT_LOGO}'">
+                <div class="app-card-title-group">
+                    <h3 class="app-card-title">${escapeHtml(policy.name)}</h3>
+                    <div class="app-card-tags">
+                        <span class="mini-chip mini-chip-tech">${escapeHtml(category)}</span>
+                        <span class="mini-chip mini-chip-status">${escapeHtml(status)}</span>
+                    </div>
+                </div>
+            </div>
+            <p class="app-card-excerpt">${escapeHtml(policy.excerpt || "Official privacy policy for " + policy.name)}</p>
+            <div class="app-card-action">
+                <span>View Privacy Policy</span>
+                <span class="app-card-arrow">&rarr;</span>
+            </div>
+        `;
+
+        card.addEventListener("click", async () => {
+            await selectPolicy(policy.id, { updateHistory: true });
+        });
+
+        els.policyCardsGrid.appendChild(card);
+    });
+}
+
+function initCategoryFilters() {
+    if (!els.categoryFilterContainer) return;
+
+    const tabs = els.categoryFilterContainer.querySelectorAll(".filter-tab");
+    tabs.forEach((tab) => {
+        tab.addEventListener("click", () => {
+            tabs.forEach((t) => t.classList.remove("is-active"));
+            tab.classList.add("is-active");
+            state.selectedCategory = tab.dataset.category || "all";
+            renderDashboardCards();
+        });
+    });
+}
+
+function renderSidebar(filterQuery = "") {
+    if (!els.policyList) return;
     els.policyList.innerHTML = "";
 
-    state.policies.forEach((policy) => {
+    const policiesToDisplay = state.policies.filter((p) => {
+        if (!filterQuery) return true;
+        return (p.name && p.name.toLowerCase().includes(filterQuery)) ||
+               (p.category && p.category.toLowerCase().includes(filterQuery));
+    });
+
+    if (policiesToDisplay.length === 0) {
+        els.policyList.innerHTML = `<p style="color: var(--secondary-text); font-size: 0.88rem; padding: 12px 6px;">No applications found.</p>`;
+        return;
+    }
+
+    policiesToDisplay.forEach((policy) => {
         const button = document.createElement("button");
         button.type = "button";
         button.className = `policy-item${policy.id === state.selectedId ? " is-active" : ""}`;
+        const logoSrc = policy.logo || DEFAULT_LOGO;
+        
         button.innerHTML = `
-            <div class="policy-item-head">
+            <img src="${escapeHtml(logoSrc)}" alt="${escapeHtml(policy.name)} icon" class="policy-item-icon" onerror="this.src='${DEFAULT_LOGO}'">
+            <div class="policy-item-info">
                 <span class="policy-item-name">${escapeHtml(policy.name)}</span>
-                <span class="mini-chip">${escapeHtml(policy.status || "Published")}</span>
+                <div class="policy-item-meta">
+                    <span>${escapeHtml(policy.category || "App")}</span>
+                    <span>&bull;</span>
+                    <span style="color: #6EE7B7;">${escapeHtml(policy.status || "Published")}</span>
+                </div>
             </div>
-            <p>${escapeHtml(policy.excerpt || "")}</p>
         `;
 
         button.addEventListener("click", async () => {
@@ -145,49 +281,58 @@ async function selectPolicy(policyId, options = {}) {
 function goHome() {
     state.selectedId = null;
     renderSidebar();
+    renderDashboardCards();
     showDashboard();
     clearPolicyUrl();
+    window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 function showDashboard() {
-    els.dashboardHero.hidden = false;
-    els.policyView.hidden = true;
+    if (els.dashboardHero) els.dashboardHero.hidden = false;
+    if (els.policyView) els.policyView.hidden = true;
     document.title = DEFAULT_TITLE;
 }
 
 function showPolicyView() {
-    els.dashboardHero.hidden = true;
-    els.policyView.hidden = false;
+    if (els.dashboardHero) els.dashboardHero.hidden = true;
+    if (els.policyView) els.policyView.hidden = false;
 }
 
 function updateMeta(policy) {
     const formattedDate = formatDate(policy.effectiveDate);
     const logoSrc = policy.logo || DEFAULT_LOGO;
 
-    els.policyHeading.textContent = policy.name;
-    els.policySummary.textContent = policy.excerpt || "";
-    els.policyDate.textContent = formattedDate;
-    els.policyStatus.textContent = policy.status || "Published";
-    els.policyPlatform.textContent = policy.platform || "-";
-    els.policyTitle.textContent = policy.name;
-    els.policyLink.textContent = buildSelectedLink(policy.id);
-    els.policyLogo.src = logoSrc;
-    els.policyLogo.alt = `${policy.name} logo`;
-    els.policyLogoTitle.textContent = policy.name;
-    els.policyLinkCaption.textContent = `Direct link ready for ${policy.name}.`;
+    if (els.policyHeading) els.policyHeading.textContent = policy.name;
+    if (els.policySummary) els.policySummary.textContent = policy.excerpt || "";
+    if (els.policyDate) els.policyDate.textContent = formattedDate;
+    if (els.policyStatus) els.policyStatus.textContent = policy.status || "Published";
+    if (els.policyPlatform) els.policyPlatform.textContent = policy.platform || "Android";
+    if (els.policyTitle) els.policyTitle.textContent = policy.name;
+    if (els.policyLink) els.policyLink.textContent = buildSelectedLink(policy.id);
+    
+    if (els.policyLogo) {
+        els.policyLogo.src = logoSrc;
+        els.policyLogo.alt = `${policy.name} logo`;
+        els.policyLogo.onerror = function() { this.src = DEFAULT_LOGO; };
+    }
+    if (els.policyLogoTitle) els.policyLogoTitle.textContent = policy.name;
+    if (els.policyLinkCaption) els.policyLinkCaption.textContent = `Direct verified link for ${policy.name}.`;
+    if (els.currentBreadcrumbName) els.currentBreadcrumbName.textContent = policy.name;
 }
 
 function renderLoadingState() {
+    if (!els.policyContent) return;
     els.policyContent.innerHTML = `
         <div class="empty-state">
             <p class="empty-kicker">Loading</p>
             <h2>Opening privacy policy</h2>
-            <p>Please wait while the selected policy is displayed.</p>
+            <p>Please wait while the verified policy is displayed.</p>
         </div>
     `;
 }
 
 function renderErrorState(message) {
+    if (!els.policyContent) return;
     els.policyContent.innerHTML = `
         <div class="empty-state">
             <p class="empty-kicker">Load Error</p>
@@ -205,9 +350,13 @@ function getPolicyContent(policy) {
 }
 
 function setSidebarOpen(open) {
-    els.sidebar.classList.toggle("is-open", open);
-    els.sidebarScrim.classList.toggle("is-visible", open);
-    els.sidebar.setAttribute("aria-hidden", String(!open));
+    if (els.sidebar) {
+        els.sidebar.classList.toggle("is-open", open);
+        els.sidebar.setAttribute("aria-hidden", String(!open));
+    }
+    if (els.sidebarScrim) {
+        els.sidebarScrim.classList.toggle("is-visible", open);
+    }
 }
 
 function getRequestedPolicyId() {
@@ -250,10 +399,13 @@ async function copySelectedLink() {
 
     try {
         await navigator.clipboard.writeText(buildSelectedLink());
-        els.copyLinkButton.textContent = "Link Copied";
-        window.setTimeout(() => {
-            els.copyLinkButton.textContent = "Copy Policy Link";
-        }, 1400);
+        if (els.copyLinkButton) {
+            const originalText = els.copyLinkButton.innerHTML;
+            els.copyLinkButton.innerHTML = `✓ Link Copied`;
+            window.setTimeout(() => {
+                els.copyLinkButton.innerHTML = originalText;
+            }, 1800);
+        }
     } catch (error) {
         console.error(error);
     }
@@ -279,7 +431,7 @@ function initializeParallax() {
             rafId = window.requestAnimationFrame(() => {
                 layers.forEach((layer) => {
                     const depth = Number(layer.dataset.parallaxLayer || 0);
-                    layer.style.transform = `translate3d(${targetX * 80 * depth}px, ${targetY * 80 * depth}px, 0)`;
+                    layer.style.transform = `translate3d(${targetX * 60 * depth}px, ${targetY * 60 * depth}px, 0)`;
                 });
                 rafId = 0;
             });
@@ -293,29 +445,30 @@ function markdownToHtml(markdown) {
     let paragraph = [];
     let unordered = [];
     let ordered = [];
+    let blockquote = [];
 
     const flushParagraph = () => {
-        if (!paragraph.length) {
-            return;
-        }
+        if (!paragraph.length) return;
         html.push(`<p>${parseInline(paragraph.join(" "))}</p>`);
         paragraph = [];
     };
 
     const flushUnordered = () => {
-        if (!unordered.length) {
-            return;
-        }
+        if (!unordered.length) return;
         html.push(`<ul>${unordered.map((item) => `<li>${parseInline(item)}</li>`).join("")}</ul>`);
         unordered = [];
     };
 
     const flushOrdered = () => {
-        if (!ordered.length) {
-            return;
-        }
+        if (!ordered.length) return;
         html.push(`<ol>${ordered.map((item) => `<li>${parseInline(item)}</li>`).join("")}</ol>`);
         ordered = [];
+    };
+
+    const flushBlockquote = () => {
+        if (!blockquote.length) return;
+        html.push(`<blockquote>${parseInline(blockquote.join(" "))}</blockquote>`);
+        blockquote = [];
     };
 
     lines.forEach((rawLine) => {
@@ -325,31 +478,58 @@ function markdownToHtml(markdown) {
             flushParagraph();
             flushUnordered();
             flushOrdered();
+            flushBlockquote();
             return;
         }
 
+        // Horizontal rule
+        if (/^---+$/.test(line) || /^\*\*\*+$/.test(line)) {
+            flushParagraph();
+            flushUnordered();
+            flushOrdered();
+            flushBlockquote();
+            html.push(`<hr style="border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: 32px 0;">`);
+            return;
+        }
+
+        // Headings
         const headingMatch = line.match(/^(#{1,6})\s+(.*)$/);
         if (headingMatch) {
             flushParagraph();
             flushUnordered();
             flushOrdered();
+            flushBlockquote();
             const level = Math.min(headingMatch[1].length, 6);
             html.push(`<h${level}>${parseInline(headingMatch[2])}</h${level}>`);
             return;
         }
 
+        // Blockquotes
+        const quoteMatch = line.match(/^>\s*(.*)$/);
+        if (quoteMatch) {
+            flushParagraph();
+            flushUnordered();
+            flushOrdered();
+            blockquote.push(quoteMatch[1]);
+            return;
+        }
+
+        // Unordered list
         const unorderedMatch = line.match(/^-\s+(.*)$/);
         if (unorderedMatch) {
             flushParagraph();
             flushOrdered();
+            flushBlockquote();
             unordered.push(unorderedMatch[1]);
             return;
         }
 
+        // Ordered list
         const orderedMatch = line.match(/^\d+\.\s+(.*)$/);
         if (orderedMatch) {
             flushParagraph();
             flushUnordered();
+            flushBlockquote();
             ordered.push(orderedMatch[1]);
             return;
         }
@@ -360,6 +540,21 @@ function markdownToHtml(markdown) {
     flushParagraph();
     flushUnordered();
     flushOrdered();
+    flushBlockquote();
+
+    // Append contact inquiry card at the bottom of the policy
+    html.push(`
+        <div class="policy-footer-contact">
+            <div class="contact-meta">
+                <h4>Questions or Privacy Inquiries?</h4>
+                <p>If you have any questions or data requests regarding this policy, reach out to our team.</p>
+            </div>
+            <a class="primary-button" href="mailto:13dimensionsgraphics@gmail.com?subject=Privacy%20Policy%20Inquiry">
+                Contact Privacy Team
+            </a>
+        </div>
+    `);
+
     return html.join("");
 }
 
@@ -377,6 +572,7 @@ function parseInline(text) {
     let output = escapeHtml(withPlaceholders);
     output = output.replace(/`([^`]+)`/g, "<code>$1</code>");
     output = output.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+    output = output.replace(/\*([^*]+)\*/g, "<em>$1</em>");
     output = output.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noreferrer">$1</a>');
 
     storedLinks.forEach((link, index) => {

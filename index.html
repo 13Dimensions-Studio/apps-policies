@@ -7,18 +7,19 @@
     <title>13 Dimensions Studio Privacy Policies</title>
     <meta
         name="description"
-        content="Official privacy policy directory for applications published by 13 Dimensions Studio."
+        content="Official privacy policy directory for applications published by 13 Dimensions Studio. Verified legal disclosures and data handling policies."
     >
     <link rel="icon" type="image/jpeg" href="assets/images/logo_header.jpg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Sora:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Sora:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
         rel="stylesheet"
     >
     <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
+    <!-- Atmospheric Background Animation -->
     <div class="page-background" aria-hidden="true">
         <div class="grid-wash"></div>
         <div class="orb orb-one" data-parallax-layer="0.22"></div>
@@ -26,153 +27,325 @@
         <div class="orb orb-three" data-parallax-layer="0.08"></div>
     </div>
 
+    <!-- Global Sticky Top Navigation -->
+    <header class="site-header">
+        <div class="site-header-inner">
+            <a href="index.html" class="brand-link" aria-label="13 Dimensions Studio Home">
+                <div class="brand-avatar">
+                    <img src="assets/images/logo_header.jpg" alt="13 Dimensions Studio Logo">
+                </div>
+                <div class="brand-text">
+                    <span class="brand-title">13 Dimensions</span>
+                    <span class="brand-subtitle">Legal & Privacy Hub</span>
+                </div>
+            </a>
+
+            <nav class="header-nav" aria-label="Primary navigation">
+                <a href="index.html" class="nav-pill is-active">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                    Privacy Policies
+                </a>
+                <a href="account-deletions/" class="nav-pill">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
+                    Account Deletions
+                </a>
+            </nav>
+
+            <div class="header-actions">
+                <div class="live-badge" title="All policy endpoints live and verified">
+                    <span class="pulse-dot"></span>
+                    Directory Active
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Slide-out Sidebar Drawer -->
     <aside class="sidebar" id="sidebar" aria-hidden="true">
         <div class="sidebar-header">
-            <p class="sidebar-kicker">Privacy Policies</p>
-            <h2>13 Dimensions Studio</h2>
-            <p>Select an application to open its privacy policy.</p>
+            <span class="section-badge section-badge-accent">Official Directory</span>
+            <h2>Applications</h2>
+            <p>Select any application to view its official privacy policy.</p>
+        </div>
+
+        <div class="sidebar-search-box">
+            <input type="search" class="search-input" id="sidebarSearchInput" placeholder="Quick find app..." aria-label="Search applications in sidebar">
         </div>
 
         <nav class="sidebar-nav" aria-label="Privacy policy list">
-            <div class="sidebar-section-title">Applications</div>
+            <div class="sidebar-section-title">Published Applications</div>
             <div class="policy-list" id="policyList"></div>
         </nav>
 
         <div class="sidebar-footer glass-chip">
-            <span class="footer-label">Official Directory</span>
-            <p>Privacy policies for current and future applications are available here in one place.</p>
-            <p style="margin-top: 10px;"><a href="account-deletions/" style="color: rgb(163, 197, 255); font-weight: 600; text-decoration: none;">&rarr; Account Deletion Requests</a></p>
+            <span class="footer-label">User Rights</span>
+            <p style="margin: 6px 0 0; font-size: 0.88rem;">Need to delete app records or account data?</p>
+            <p style="margin-top: 8px;">
+                <a href="account-deletions/" style="font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">
+                    Account Deletion Portal &rarr;
+                </a>
+            </p>
         </div>
     </aside>
 
     <button class="sidebar-scrim" id="sidebarScrim" type="button" aria-label="Close sidebar"></button>
 
+    <!-- Main Content Container -->
     <main class="page-shell">
+        <!-- Dashboard Home View -->
         <section class="hero glass-panel dashboard-hero" id="dashboardHero">
             <div class="hero-topbar">
-                <button class="menu-toggle" id="dashboardMenuToggle" type="button" aria-label="Open sidebar">
-                    <svg class="menu-icon" viewBox="0 0 64 64" aria-hidden="true">
-                        <rect class="menu-icon-frame" x="7" y="7" width="50" height="50" rx="18"></rect>
-                        <path class="menu-icon-line" d="M18 22H46"></path>
-                        <path class="menu-icon-line menu-icon-line-short" d="M18 32H39"></path>
-                        <path class="menu-icon-line" d="M18 42H46"></path>
-                        <circle class="menu-icon-dot" cx="45" cy="32" r="3.2"></circle>
-                    </svg>
-                </button>
+                <div class="hero-top-left">
+                    <button class="menu-toggle" id="dashboardMenuToggle" type="button" aria-label="Open sidebar directory">
+                        <svg class="menu-icon" viewBox="0 0 64 64" aria-hidden="true">
+                            <rect class="menu-icon-frame" x="7" y="7" width="50" height="50" rx="18"></rect>
+                            <path class="menu-icon-line" d="M16 22H48"></path>
+                            <path class="menu-icon-line menu-icon-line-short" d="M16 32H40"></path>
+                            <path class="menu-icon-line" d="M16 42H48"></path>
+                            <circle class="menu-icon-dot" cx="48" cy="32" r="3.4"></circle>
+                        </svg>
+                    </button>
+                    <span class="section-badge">Verified Legal Hub</span>
+                </div>
 
-                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                    <a class="ghost-button" href="account-deletions/" style="text-decoration: none;">Account Deletions</a>
-                    <button class="ghost-button" id="openPoliciesButton" type="button">Browse Policies</button>
+                <div class="hero-actions">
+                    <a class="ghost-button" href="account-deletions/">Account Deletions</a>
+                    <button class="primary-button" id="openPoliciesButton" type="button">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                        Browse All Apps
+                    </button>
                 </div>
             </div>
 
+            <!-- Hero Two Column Presentation -->
             <div class="hero-layout">
                 <div class="hero-copy">
-                    <p class="section-label">Official Privacy Policy Directory</p>
-                    <h1>Official privacy policies for applications published by 13 Dimensions Studio.</h1>
+                    <p class="section-label">Official Legal & Privacy Directory</p>
+                    <h1>Public privacy policies for apps published by 13 Dimensions Studio.</h1>
                     <p class="hero-text">
-                        This directory provides public access to privacy policies for current and future
-                        mobile applications released by 13 Dimensions Studio.
+                        We believe in complete transparency and responsible data stewardship. This centralized directory 
+                        provides publicly accessible, permanent privacy policies for all current and future 
+                        mobile applications published by 13 Dimensions Studio.
                     </p>
 
                     <div class="hero-metrics">
-                        <div class="metric glass-chip">
-                            <span class="metric-label">Policies</span>
-                            <strong id="metricTotalPolicies">0</strong>
+                        <div class="metric">
+                            <span class="metric-label">Published Policies</span>
+                            <strong id="metricTotalPolicies">9</strong>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Platform</span>
+                            <strong>Android / Mobile</strong>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Compliance</span>
+                            <strong style="color: #6EE7B7;">Google Play Verified</strong>
                         </div>
                     </div>
                 </div>
 
-                <div class="hero-brand glass-panel">
-                    <div class="logo-frame">
-                        <img id="dashboardLogo" src="assets/images/logo.jpg" alt="13 Dimensions Studio logo">
+                <div class="hero-brand">
+                    <div class="brand-card-header">
+                        <div class="logo-frame">
+                            <img id="dashboardLogo" src="assets/images/logo.jpg" alt="13 Dimensions Studio logo">
+                        </div>
+                        <div class="brand-card-meta">
+                            <p class="spotlight-label">13 Dimensions Studio</p>
+                            <h3>Privacy Center</h3>
+                        </div>
                     </div>
-                    <p class="spotlight-label">Studio Directory</p>
-                    <h2>Public privacy policy center</h2>
                     <p>
-                        Use the menu to open any available application policy. Each application can be
-                        accessed through its own direct URL.
+                        Every application has a unique, direct link suitable for Google Play Store declarations, 
+                        regulatory disclosures, and user verification.
+                    </p>
+                    <div class="brand-trust-list">
+                        <div class="trust-item">
+                            <svg class="trust-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                            <span>Permanent shareable policy links for app listings</span>
+                        </div>
+                        <div class="trust-item">
+                            <svg class="trust-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                            <span>Clear third-party SDK and AdMob disclosures</span>
+                        </div>
+                        <div class="trust-item">
+                            <svg class="trust-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                            <span>Dedicated account & data deletion procedures</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Applications Catalog Grid Section -->
+            <div class="catalog-section">
+                <div class="catalog-header">
+                    <div class="catalog-title-group">
+                        <span class="section-label">Application Catalog</span>
+                        <h2>Select An Application</h2>
+                    </div>
+
+                    <div class="catalog-controls">
+                        <div class="search-box">
+                            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                            <input type="search" class="search-input" id="policySearchInput" placeholder="Search application or keyword..." aria-label="Search policies">
+                        </div>
+
+                        <div class="category-filters" id="categoryFilterContainer" role="tablist">
+                            <button class="filter-tab is-active" data-category="all" type="button" role="tab">All Apps</button>
+                            <button class="filter-tab" data-category="arcade" type="button" role="tab">Games</button>
+                            <button class="filter-tab" data-category="productivity" type="button" role="tab">Productivity</button>
+                            <button class="filter-tab" data-category="utility" type="button" role="tab">Utilities</button>
+                            <button class="filter-tab" data-category="wallpaper" type="button" role="tab">Media</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- The Interactive Policy Cards Grid -->
+                <div class="apps-cards-grid" id="policyCardsGrid"></div>
+            </div>
+
+            <!-- Compliance Guarantee Banner -->
+            <div class="compliance-banner">
+                <div class="compliance-badge-icon">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                </div>
+                <div class="compliance-content">
+                    <h3>Commitment to Privacy & Data Protection</h3>
+                    <p>
+                        We do not sell personal information to third parties. For apps requiring online accounts, 
+                        you have the right to request full account deletion and personal data erasure in compliance with global standards.
                     </p>
                 </div>
+                <a class="ghost-button" href="account-deletions/">Data Deletions &rarr;</a>
             </div>
         </section>
 
+        <!-- Dedicated Application Policy View -->
         <section class="policy-view" id="policyView" hidden>
             <section class="policy-hero glass-panel">
+                <!-- Breadcrumbs -->
+                <div class="policy-breadcrumbs">
+                    <a href="javascript:void(0)" id="backHomeBreadcrumb" onclick="document.getElementById('backHomeButton').click();">Directory</a>
+                    <span class="breadcrumb-sep">/</span>
+                    <span>Policies</span>
+                    <span class="breadcrumb-sep">/</span>
+                    <span class="breadcrumb-current" id="currentBreadcrumbName">Application</span>
+                </div>
+
                 <div class="hero-topbar">
-                    <button class="menu-toggle" id="policyMenuToggle" type="button" aria-label="Open sidebar">
-                        <svg class="menu-icon" viewBox="0 0 64 64" aria-hidden="true">
-                            <rect class="menu-icon-frame" x="7" y="7" width="50" height="50" rx="18"></rect>
-                            <path class="menu-icon-line" d="M18 22H46"></path>
-                            <path class="menu-icon-line menu-icon-line-short" d="M18 32H39"></path>
-                            <path class="menu-icon-line" d="M18 42H46"></path>
-                            <circle class="menu-icon-dot" cx="45" cy="32" r="3.2"></circle>
-                        </svg>
-                    </button>
+                    <div class="hero-top-left">
+                        <button class="menu-toggle" id="policyMenuToggle" type="button" aria-label="Open sidebar directory">
+                            <svg class="menu-icon" viewBox="0 0 64 64" aria-hidden="true">
+                                <rect class="menu-icon-frame" x="7" y="7" width="50" height="50" rx="18"></rect>
+                                <path class="menu-icon-line" d="M16 22H48"></path>
+                                <path class="menu-icon-line menu-icon-line-short" d="M16 32H40"></path>
+                                <path class="menu-icon-line" d="M16 42H48"></path>
+                                <circle class="menu-icon-dot" cx="48" cy="32" r="3.4"></circle>
+                            </svg>
+                        </button>
+                        <span class="section-badge">Verified Policy</span>
+                    </div>
 
                     <div class="policy-top-actions">
-                        <button class="ghost-button" id="backHomeButton" type="button">Back To Home</button>
-                        <button class="ghost-button" id="copyLinkButton" type="button">Copy Policy Link</button>
+                        <button class="ghost-button" id="backHomeButton" type="button">
+                            &larr; Back To Directory
+                        </button>
+                        <a class="ghost-button" href="account-deletions/">Account Deletions</a>
+                        <button class="primary-button" id="copyLinkButton" type="button">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                            Copy Policy Link
+                        </button>
                     </div>
                 </div>
 
                 <div class="hero-layout">
                     <div class="hero-copy">
-                        <p class="section-label">Privacy Policy</p>
+                        <p class="section-label">Official Legal Document</p>
                         <h1 id="policyHeading">Select an application</h1>
                         <p class="hero-text" id="policySummary">
-                            Select an application from the menu to display its privacy policy.
+                            Select an application from the directory to review its privacy disclosures.
                         </p>
 
                         <div class="hero-metrics">
-                            <div class="metric glass-chip">
-                                <span class="metric-label">Effective</span>
+                            <div class="metric">
+                                <span class="metric-label">Effective Date</span>
                                 <strong id="policyDate">No date</strong>
                             </div>
-                            <div class="metric glass-chip">
+                            <div class="metric">
                                 <span class="metric-label">Status</span>
-                                <strong id="policyStatus">Waiting</strong>
+                                <strong id="policyStatus" style="color: #6EE7B7;">Published</strong>
                             </div>
-                            <div class="metric glass-chip">
+                            <div class="metric">
                                 <span class="metric-label">Platform</span>
-                                <strong id="policyPlatform">-</strong>
+                                <strong id="policyPlatform">Android</strong>
                             </div>
                         </div>
                     </div>
 
-                    <div class="hero-brand glass-panel">
-                        <div class="logo-frame">
-                            <img id="policyLogo" src="assets/images/logo.jpg" alt="Selected application logo">
+                    <div class="hero-brand">
+                        <div class="brand-card-header">
+                            <div class="logo-frame">
+                                <img id="policyLogo" src="assets/images/logo.jpg" alt="Selected application logo">
+                            </div>
+                            <div class="brand-card-meta">
+                                <p class="spotlight-label">Active Document</p>
+                                <h3 id="policyLogoTitle">Application Name</h3>
+                            </div>
                         </div>
-                        <p class="spotlight-label">Selected Application</p>
-                        <h2 id="policyLogoTitle">No application selected</h2>
                         <p id="policyLinkCaption">
-                            The direct application policy link is available below after a policy is opened.
+                            This direct link can be submitted to Google Play Console and referenced in store listings.
                         </p>
                     </div>
                 </div>
 
-                <div class="link-preview" id="policyLink">Awaiting selection...</div>
+                <!-- Direct Link Bar -->
+                <div class="link-preview-box">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgb(163, 197, 255)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                        <span class="metric-label" style="color: rgb(163, 197, 255);">Direct URL:</span>
+                    </div>
+                    <div class="link-preview-text" id="policyLink">Awaiting selection...</div>
+                </div>
             </section>
 
+            <!-- Policy Reading Panel -->
             <section class="policy-panel glass-panel">
                 <div class="policy-toolbar">
                     <div>
-                        <p class="section-label">Displayed Policy</p>
-                        <h2 id="policyTitle">Select a privacy policy</h2>
+                        <p class="section-label">Legal Disclosure</p>
+                        <h2 id="policyTitle">Privacy Policy Details</h2>
+                    </div>
+                    <div class="live-badge">
+                        <span class="pulse-dot"></span>
+                        Official Policy Text
                     </div>
                 </div>
 
                 <article class="policy-body" id="policyContent">
                     <div class="empty-state">
                         <p class="empty-kicker">No Policy Loaded</p>
-                        <h2>Select an application from the menu</h2>
-                        <p>The corresponding privacy policy will be displayed here.</p>
+                        <h2>Select an application from the directory</h2>
+                        <p>The verified privacy disclosures for that application will appear here.</p>
                     </div>
                 </article>
             </section>
         </section>
     </main>
+
+    <!-- Site Footer -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div>
+                &copy; 13 Dimensions Studio. All rights reserved. Official Privacy Policy Directory.
+            </div>
+            <div class="footer-links">
+                <a href="index.html">Privacy Directory</a>
+                <span>&bull;</span>
+                <a href="account-deletions/">Account Deletions</a>
+                <span>&bull;</span>
+                <a href="mailto:13dimensionsgraphics@gmail.com">Contact Legal</a>
+            </div>
+        </div>
+    </footer>
 
     <script src="data/policies.js"></script>
     <script src="assets/js/app.js"></script>
