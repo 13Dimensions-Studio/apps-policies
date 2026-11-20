@@ -125,6 +125,28 @@ function bindEvents() {
         });
     }
 
+    // Intercept mailto clicks to open Gmail web composer with pre-filled recipient, subject, and body
+    document.addEventListener("click", (event) => {
+        const link = event.target.closest("a");
+        if (!link) return;
+        const href = link.getAttribute("href") || "";
+        if (href.startsWith("mailto:")) {
+            event.preventDefault();
+            const mailtoParts = href.replace(/^mailto:/i, "").split("?");
+            const to = decodeURIComponent(mailtoParts[0] || "13dimensionsgraphics@gmail.com");
+            const searchParams = new URLSearchParams(mailtoParts[1] || "");
+            const currentPolicy = state.policies.find((p) => p.id === state.selectedId);
+            const appName = currentPolicy ? currentPolicy.name : "13 Dimensions Studio";
+            const subject = searchParams.get("subject") || `Privacy Policy Inquiry - ${appName}`;
+            let body = searchParams.get("body") || "";
+            if (!body) {
+                body = `Hi 13 Dimensions Studio Team,\n\nI have an inquiry regarding the privacy policy for ${appName}:\n\n\n\nRegards,\n`;
+            }
+            const gmailUrl = buildGmailComposeUrl({ to, subject, body });
+            window.open(gmailUrl, "_blank", "noopener,noreferrer");
+        }
+    });
+
     document.addEventListener("keydown", (event) => {
         if (event.key === "Escape") {
             setSidebarOpen(false);
@@ -265,7 +287,7 @@ async function selectPolicy(policyId, options = {}) {
     updateMeta(policy);
 
     try {
-        els.policyContent.innerHTML = markdownToHtml(getPolicyContent(policy));
+        els.policyContent.innerHTML = markdownToHtml(getPolicyContent(policy), policy);
         updateMeta(policy);
         if (options.updateHistory !== false) {
             updatePolicyUrl(policy.id);
@@ -439,7 +461,18 @@ function initializeParallax() {
     }, { passive: true });
 }
 
-function markdownToHtml(markdown) {
+function buildGmailComposeUrl({ to, subject, body }) {
+    const params = new URLSearchParams({
+        view: "cm",
+        fs: "1",
+        to: to || "13dimensionsgraphics@gmail.com",
+        su: subject || "Privacy Policy Inquiry - 13 Dimensions Studio",
+        body: body || "Hi 13 Dimensions Studio Team,\n\n\n\nRegards,\n"
+    });
+    return `https://mail.google.com/mail/?${params.toString()}`;
+}
+
+function markdownToHtml(markdown, policy) {
     const lines = markdown.replace(/\r/g, "").split("\n");
     const html = [];
     let paragraph = [];
@@ -542,6 +575,16 @@ function markdownToHtml(markdown) {
     flushOrdered();
     flushBlockquote();
 
+    // Construct predefined Gmail compose link for this policy
+    const appName = (policy && policy.name) ? policy.name : "13 Dimensions Studio";
+    const subject = `Privacy Policy Inquiry - ${appName}`;
+    const body = `Hi 13 Dimensions Studio Team,\n\nI have an inquiry regarding the privacy policy for ${appName}:\n\n\n\nRegards,\n`;
+    const gmailUrl = buildGmailComposeUrl({
+        to: "13dimensionsgraphics@gmail.com",
+        subject: subject,
+        body: body
+    });
+
     // Append contact inquiry card at the bottom of the policy
     html.push(`
         <div class="policy-footer-contact">
@@ -549,7 +592,8 @@ function markdownToHtml(markdown) {
                 <h4>Questions or Privacy Inquiries?</h4>
                 <p>If you have any questions or data requests regarding this policy, reach out to our team.</p>
             </div>
-            <a class="primary-button" href="mailto:13dimensionsgraphics@gmail.com?subject=Privacy%20Policy%20Inquiry">
+            <a class="primary-button" href="${escapeHtml(gmailUrl)}" target="_blank" rel="noopener noreferrer">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
                 Contact Privacy Team
             </a>
         </div>

@@ -324,7 +324,7 @@
                 <span>&bull;</span>
                 <a href="index.html">Account Deletions</a>
                 <span>&bull;</span>
-                <a href="mailto:13dimensions.studio@gmail.com">Contact Support</a>
+                <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=13dimensions.studio%40gmail.com&amp;su=Account%20and%20Data%20Deletion%20Support%20-%2013%20Dimensions%20Studio&amp;body=Hi%2013%20Dimensions%20Studio%20Team%2C%0A%0AI%20have%20an%20inquiry%20regarding%20account%20and%20data%20deletion%3A%0A%0A%0A%0ARegards%2C%0A" target="_blank" rel="noopener noreferrer">Contact Support</a>
             </div>
         </div>
     </footer>
@@ -429,6 +429,28 @@
                 els.copyLinkButton.addEventListener("click", copySelectedLink);
             }
 
+            // Intercept mailto clicks to open Gmail web composer with pre-filled recipient, subject, and body
+            document.addEventListener("click", (event) => {
+                const link = event.target.closest("a");
+                if (!link) return;
+                const href = link.getAttribute("href") || "";
+                if (href.startsWith("mailto:")) {
+                    event.preventDefault();
+                    const mailtoParts = href.replace(/^mailto:/i, "").split("?");
+                    const to = decodeURIComponent(mailtoParts[0] || "13dimensions.studio@gmail.com");
+                    const searchParams = new URLSearchParams(mailtoParts[1] || "");
+                    const currentApp = state.apps.find((a) => a.id === state.selectedId);
+                    const appName = currentApp ? currentApp.name : "13 Dimensions Studio";
+                    const subject = searchParams.get("subject") || `${appName} - Account and Data Deletion Request`;
+                    let body = searchParams.get("body") || "";
+                    if (!body) {
+                        body = `Hi 13 Dimensions Studio Team,\n\nI am requesting the permanent deletion of my account and all associated personal data for ${appName}.\n\nAccount Details:\n- Registered Email Address: \n- Username / Account ID (if known): \n- Reason for Deletion (Optional): \n\nRegards,\n`;
+                    }
+                    const gmailUrl = buildGmailComposeUrl({ to, subject, body });
+                    window.open(gmailUrl, "_blank", "noopener,noreferrer");
+                }
+            });
+
             document.addEventListener("keydown", (event) => {
                 if (event.key === "Escape") setSidebarOpen(false);
             });
@@ -504,7 +526,7 @@
             updateMeta(app);
 
             try {
-                els.deletionContent.innerHTML = markdownToHtml(app.content || "");
+                els.deletionContent.innerHTML = markdownToHtml(app.content || "", app);
                 updateMeta(app);
                 if (options.updateHistory !== false) {
                     updateAppUrl(app.id);
@@ -669,7 +691,18 @@
             }, { passive: true });
         }
 
-        function markdownToHtml(markdown) {
+        function buildGmailComposeUrl({ to, subject, body }) {
+            const params = new URLSearchParams({
+                view: "cm",
+                fs: "1",
+                to: to || "13dimensions.studio@gmail.com",
+                su: subject || "Account and Data Deletion Request - 13 Dimensions Studio",
+                body: body || "Hi 13 Dimensions Studio Team,\n\n\n\nRegards,\n"
+            });
+            return `https://mail.google.com/mail/?${params.toString()}`;
+        }
+
+        function markdownToHtml(markdown, app) {
             const lines = markdown.replace(/\r/g, "").split("\n");
             const html = [];
             let paragraph = [];
@@ -772,6 +805,16 @@
             flushOrdered();
             flushBlockquote();
 
+            // Construct predefined Gmail compose link for this deletion procedure
+            const appName = (app && app.name) ? app.name : "13 Dimensions Studio";
+            const subject = `${appName} - Account and Data Deletion Request`;
+            const body = `Hi 13 Dimensions Studio Team,\n\nI am requesting the permanent deletion of my account and all associated personal data for ${appName}.\n\nAccount Details:\n- Registered Email Address: \n- Username / Account ID (if known): \n- Reason for Deletion (Optional): \n\nRegards,\n`;
+            const gmailUrl = buildGmailComposeUrl({
+                to: "13dimensions.studio@gmail.com",
+                subject: subject,
+                body: body
+            });
+
             // Append contact support card
             html.push(`
                 <div class="policy-footer-contact">
@@ -779,7 +822,8 @@
                         <h4>Need Help With Your Deletion Request?</h4>
                         <p>Submit your verified request directly to our customer data protection officer.</p>
                     </div>
-                    <a class="primary-button" href="mailto:13dimensions.studio@gmail.com?subject=Account%20and%20Data%20Deletion%20Request">
+                    <a class="primary-button" href="${escapeHtml(gmailUrl)}" target="_blank" rel="noopener noreferrer">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
                         Send Deletion Email
                     </a>
                 </div>
